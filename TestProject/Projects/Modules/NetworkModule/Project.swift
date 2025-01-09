@@ -10,8 +10,9 @@ import ProjectDescriptionHelpers
 
 let project = Project.configure(
     moduleType: .module(name: "NetworkModule"),
-    product: .staticFramework,
+    product: .framework,
     dependencies: [
-        .Modules.domain
+        .Modules.domain,
+        .Library.alamofire
     ]
 )

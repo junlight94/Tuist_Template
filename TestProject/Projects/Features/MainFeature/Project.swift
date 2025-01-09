@@ -10,7 +10,7 @@ import ProjectDescriptionHelpers
 
 let project = Project.configure(
     moduleType: .feature(name: "Main"),
-    product: .staticFramework,
+    product: .framework,
     dependencies: [
         .Core.designKit
     ]

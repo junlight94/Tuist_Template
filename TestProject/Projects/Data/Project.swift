@@ -10,7 +10,7 @@ import ProjectDescriptionHelpers
 
 let project = Project.configure(
     moduleType: .module(name: "Data"),
-    product: .staticFramework,
+    product: .framework,
     dependencies: [
         .Modules.networkModule
     ]

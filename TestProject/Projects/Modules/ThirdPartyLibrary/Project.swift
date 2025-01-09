@@ -1,6 +1,6 @@
 //
 //  Project.swift
-//  Config
+//  ProjectDescriptionHelpers
 //
 //  Created by Junyoung on 1/9/25.
 //
@@ -9,10 +9,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .module(name: "DesignKit"),
+    moduleType: .module(name: "ThirdPartyLibrary"),
     product: .framework,
     dependencies: [
-        .Modules.domain,
-        .Library.snapKit
+        .Library.then
     ]
 )

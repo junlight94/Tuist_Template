@@ -10,7 +10,7 @@ import ProjectDescriptionHelpers
 
 let project = Project.configure(
     moduleType: .module(name: "Domain"),
-    product: .staticFramework,
+    product: .framework,
     dependencies: [
         .Modules.shared
     ]

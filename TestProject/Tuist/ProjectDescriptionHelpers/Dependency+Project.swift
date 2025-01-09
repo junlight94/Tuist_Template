@@ -19,9 +19,10 @@ public extension TargetDependency {
 public extension TargetDependency.Modules {
     static let data = TargetDependency.project(target: "Data", path: .data)
     static let domain = TargetDependency.project(target: "Domain", path: .domain)
-    static let shared = TargetDependency.project(target: "Shared", path: .shared)
     
+    static let shared = TargetDependency.project(target: "Shared", path: .relativeToModule("Shared"))
     static let networkModule = TargetDependency.project(target: "NetworkModule", path: .relativeToModule("NetworkModule"))
+    static let thirdPartyLibrary = TargetDependency.project(target: "ThirdPartyLibrary", path: .relativeToModule("ThirdPartyLibrary"))
 }
 
 public extension TargetDependency.Core {
