@@ -1,5 +1,4 @@
 ## Clean Architecture 기반의 모듈 구조
-클린아키텍처 기반의 Domain, Data, Presentation(Feature) 레이어로 분리되어있습니다.
 ![image](https://github.com/user-attachments/assets/1aaa73d0-e3c2-4fb3-9e7a-d967c8439295)
 
 <br>
