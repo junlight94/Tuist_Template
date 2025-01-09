@@ -12,6 +12,7 @@ let project = Project.configure(
     moduleType: .app,
     product: .app,
     dependencies: [
-        .Features.Main.Feature
+        .Features.Main.Feature,
+        .Modules.data
     ]
 )

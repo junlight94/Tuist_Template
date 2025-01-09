@@ -12,6 +12,6 @@ let project = Project.configure(
     moduleType: .module(name: "Domain"),
     product: .staticFramework,
     dependencies: [
-        
+        .Modules.shared
     ]
 )

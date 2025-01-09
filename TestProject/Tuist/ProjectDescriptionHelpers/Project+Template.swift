@@ -86,7 +86,7 @@ extension Project {
                 targets: targets,
                 schemes: schemes
             )
-        case let .module(name):
+        case let .module(name, path):
             let moduleTarget = Target.target(
                 name: name,
                 destinations: configuration.destination,

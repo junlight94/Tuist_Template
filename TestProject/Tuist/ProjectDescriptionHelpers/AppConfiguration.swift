@@ -13,8 +13,8 @@ public struct AppConfiguration {
     public init() {}
     
     let workspaceName = "TestProject"
-    let organizationName = "TestProject"
     let projectName: String = "TestProject"
+    let organizationName = "TeamName"
     let shortVersion: String = "1.0.0"
     let bundleIdentifier: String = "com.test.project"
     let displayName: String = "트위스트"

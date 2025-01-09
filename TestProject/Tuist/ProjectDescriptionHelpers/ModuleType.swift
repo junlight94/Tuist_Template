@@ -7,8 +7,13 @@
 
 import Foundation
 
+public enum ModulePath {
+    case root
+    case modules
+}
+
 public enum ModuleType {
     case app
     case feature(name: String)
-    case module(name: String)
+    case module(name: String, path: ModulePath = .root)
 }

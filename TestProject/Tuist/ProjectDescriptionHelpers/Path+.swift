@@ -12,8 +12,8 @@ public extension ProjectDescription.Path {
         return .relativeToRoot("Projects/Features/\(path)")
     }
     
-    static var app: Self {
-        return .relativeToRoot("Projects/AppModule/")
+    static func relativeToModule(_ path: String) -> Self {
+        return .relativeToRoot("Projects/Modules/\(path)")
     }
     
     static var data: Self {
@@ -24,7 +24,7 @@ public extension ProjectDescription.Path {
         return .relativeToRoot("Projects/Domain")
     }
     
-    static var core: Self {
-        return .relativeToRoot("Projects/Core")
+    static var shared: Self {
+        return .relativeToRoot("Projects/Shared")
     }
 }
