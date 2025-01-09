@@ -8,10 +8,8 @@
 import ProjectDescription
 
 extension Scheme {
-    static func configureScheme(
-        configurationName: ConfigurationName,
-        schemeName: String,
-        codeCoverageTargets: [String]
+    static func configureAppScheme(
+        schemeName: String
     ) -> [Scheme] {
         let developConfiguration: ConfigurationName = .configuration("Develop")
         let testConfiguration: ConfigurationName = .configuration("Test")
@@ -50,5 +48,21 @@ extension Scheme {
         ]
     }
     
-    
+    static func configureScheme(
+        schemeName: String
+    ) -> Scheme {
+        let configuration: ConfigurationName = .configuration("Develop")
+        
+        let buildAction = BuildAction.buildAction(targets: [TargetReference(stringLiteral: schemeName)])
+        
+        return Scheme.scheme(
+                name: schemeName,
+                shared: true,
+                buildAction: buildAction,
+                runAction: .runAction(configuration: configuration),
+                archiveAction: .archiveAction(configuration: configuration),
+                profileAction: .profileAction(configuration: configuration),
+                analyzeAction: .analyzeAction(configuration: configuration)
+        )
+    }
 }

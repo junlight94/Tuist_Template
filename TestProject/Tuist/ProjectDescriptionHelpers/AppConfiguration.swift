@@ -12,6 +12,8 @@ public struct AppConfiguration {
     
     public init() {}
     
+    let workspaceName = "TestProject"
+    let organizationName = "TestProject"
     let projectName: String = "TestProject"
     let shortVersion: String = "1.0.0"
     let bundleIdentifier: String = "com.test.project"
@@ -19,6 +21,7 @@ public struct AppConfiguration {
     let destination: Set<Destination> = [.iPhone, .iPad]
     var entitlements: Entitlements? = nil
     let deploymentTarget: DeploymentTargets = .iOS("16.0")
+    
     public var configurationName: ConfigurationName {
         return "TestProject"
     }
@@ -37,4 +40,12 @@ public struct AppConfiguration {
             configurations: XCConfig.project
         )
     }
+    
+    let commonSettings = Settings.settings(
+        base: SettingsDictionary.debugSettings
+            .configureAutoCodeSigning()
+            .configureVersioning()
+            .configureTestability(),
+        configurations: XCConfig.framework
+    )
 }

@@ -16,9 +16,10 @@ extension Project {
         
         var targets: [Target] = []
         var schemes: [Scheme] = []
+        let configuration = AppConfiguration()
         
         switch moduleType {
-        case let .app(configuration):
+        case .app:
             
             let appTarget = Target.target(
                 name: configuration.projectName,
@@ -35,16 +36,53 @@ extension Project {
             )
             targets.append(appTarget)
             
-            let appScheme = Scheme.configureScheme(
-                configurationName: configuration.configurationName,
-                schemeName: configuration.projectName,
-                codeCoverageTargets: [configuration.projectName]
+            let appScheme = Scheme.configureAppScheme(
+                schemeName: configuration.projectName
             )
             schemes = appScheme
             
             return Project(
                 name: configuration.projectName,
+                organizationName: configuration.organizationName,
                 settings: configuration.setting,
+                targets: targets,
+                schemes: schemes
+            )
+        case let .feature(name: name):
+            let featureTargetName = "\(name)Feature"
+            
+            let featureTarget = Target.target(
+                name: featureTargetName,
+                destinations: configuration.destination,
+                product: product,
+                bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased())",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Sources/**"],
+                dependencies: dependencies
+            )
+            targets.append(featureTarget)
+            
+            let testTargetName = "\(featureTargetName)Tests"
+            let testTarget = Target.target(
+                name: testTargetName,
+                destinations: configuration.destination,
+                product: .unitTests,
+                bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased()).test",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Tests/Sources/**"],
+                dependencies: [.target(name: featureTargetName)]
+            )
+            targets.append(testTarget)
+            
+            let featureScheme = Scheme.configureScheme(
+                schemeName: featureTargetName
+            )
+            schemes.append(featureScheme)
+            
+            return Project(
+                name: featureTargetName,
+                organizationName: configuration.organizationName,
+                settings: configuration.commonSettings,
                 targets: targets,
                 schemes: schemes
             )

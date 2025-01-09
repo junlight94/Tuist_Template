@@ -8,8 +8,8 @@
 import Foundation
 
 public enum ModuleType {
-    case app(AppConfiguration)
-//    case feature(name: String)
+    case app
+    case feature(name: String)
 //    case domain
 //    case data
 }

@@ -1,17 +1,17 @@
 //
 //  Project.swift
-//  TestProjectManifests
+//  ProjectDescriptionHelpers
 //
-//  Created by Junyoung on 1/8/25.
+//  Created by Junyoung Lee on 1/9/25.
 //
 
 import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .app,
-    product: .app,
+    moduleType: .feature(name: "Main"),
+    product: .staticFramework,
     dependencies: [
-        .Features.Main.Feature
+        
     ]
 )
