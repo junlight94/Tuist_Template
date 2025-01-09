@@ -10,6 +10,5 @@ import Foundation
 public enum ModuleType {
     case app
     case feature(name: String)
-//    case domain
-//    case data
+    case module(name: String)
 }

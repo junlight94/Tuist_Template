@@ -11,7 +11,8 @@ extension Project {
     public static func configure(
         moduleType: ModuleType,
         product: Product,
-        dependencies: [TargetDependency]
+        dependencies: [TargetDependency],
+        hasResources: Bool = false
     ) -> Project {
         
         var targets: [Target] = []
@@ -20,7 +21,6 @@ extension Project {
         
         switch moduleType {
         case .app:
-            
             let appTarget = Target.target(
                 name: configuration.projectName,
                 destinations: configuration.destination,
@@ -81,6 +81,44 @@ extension Project {
             
             return Project(
                 name: featureTargetName,
+                organizationName: configuration.organizationName,
+                settings: configuration.commonSettings,
+                targets: targets,
+                schemes: schemes
+            )
+        case let .module(name):
+            let moduleTarget = Target.target(
+                name: name,
+                destinations: configuration.destination,
+                product: product,
+                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Sources/**"],
+                resources: hasResources ? ["Resources/**"] : [],
+                dependencies: dependencies
+            )
+            targets.append(moduleTarget)
+            
+            let testTargetName = "\(name)Tests"
+            let testTarget = Target.target(
+                name: testTargetName,
+                destinations: configuration.destination,
+                product: .unitTests,
+                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased()).test",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Sources/**"],
+                dependencies: [.target(name: name)]
+            )
+            targets.append(testTarget)
+            
+            let moduleScheme = Scheme.configureScheme(
+                schemeName: name
+            )
+            
+            schemes.append(moduleScheme)
+            
+            return Project(
+                name: name,
                 organizationName: configuration.organizationName,
                 settings: configuration.commonSettings,
                 targets: targets,
