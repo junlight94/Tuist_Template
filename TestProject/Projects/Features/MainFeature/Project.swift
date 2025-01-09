@@ -12,6 +12,6 @@ let project = Project.configure(
     moduleType: .feature(name: "Main"),
     product: .staticFramework,
     dependencies: [
-        .Modules.domain
+        .Core.designKit
     ]
 )

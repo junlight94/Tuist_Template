@@ -13,6 +13,7 @@ public extension TargetDependency {
     }
     
     struct Modules {}
+    struct Core {}
 }
 
 public extension TargetDependency.Modules {
@@ -20,8 +21,11 @@ public extension TargetDependency.Modules {
     static let domain = TargetDependency.project(target: "Domain", path: .domain)
     static let shared = TargetDependency.project(target: "Shared", path: .shared)
     
-    static let networkKit = TargetDependency.project(target: "NetworkKit", path: .relativeToModule("NetworkKit"))
-    static let designKit = TargetDependency.project(target: "DesignKit", path: .relativeToModule("DesignKit"))
+    static let networkModule = TargetDependency.project(target: "NetworkModule", path: .relativeToModule("NetworkModule"))
+}
+
+public extension TargetDependency.Core {
+    static let designKit = TargetDependency.project(target: "DesignKit", path: .relativeToCore("DesignKit"))
 }
 
 public extension TargetDependency.Features {

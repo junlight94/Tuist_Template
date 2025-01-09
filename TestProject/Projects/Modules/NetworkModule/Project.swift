@@ -9,9 +9,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .module(name: "DesignKit"),
+    moduleType: .module(name: "NetworkModule"),
     product: .staticFramework,
     dependencies: [
-        
+        .Modules.domain
     ]
 )
