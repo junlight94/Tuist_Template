@@ -6,10 +6,13 @@
 ## 폴더 구조
 ```
 ├── AppModule
-│   └── TestProject
-├── Core
+│   └── Sample
+├── CoreKit
+│   ├── Core
 │   └── DesignKit
 ├── Data
+│   ├── Data.xcodeproj
+│   ├── Derived
 │   ├── Sources
 │   └── Tests
 ├── Domain
