@@ -27,6 +27,7 @@ public extension TargetDependency.Modules {
 
 public extension TargetDependency.Core {
     static let designKit = TargetDependency.project(target: "DesignKit", path: .relativeToCore("DesignKit"))
+    static let core = TargetDependency.project(target: "Core", path: .relativeToCore("Core"))
 }
 
 public extension TargetDependency.Features {

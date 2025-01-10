@@ -12,11 +12,11 @@ public struct AppConfiguration {
     
     public init() {}
     
-    let workspaceName = "TestProject"
-    let projectName: String = "TestProject"
-    let organizationName = "TeamName"
+    let workspaceName = "Sample"
+    let projectName: String = "Sample"
+    let organizationName = "SampleCompany"
     let shortVersion: String = "1.0.0"
-    let bundleIdentifier: String = "com.test.project"
+    let bundleIdentifier: String = "com.test.sample"
     let displayName: String = "트위스트"
     let destination: Set<Destination> = [.iPhone, .iPad]
     var entitlements: Entitlements? = nil
