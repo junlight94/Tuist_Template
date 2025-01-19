@@ -106,7 +106,7 @@ extension Project {
                 product: .unitTests,
                 bundleId: "\(configuration.bundleIdentifier).\(name.lowercased()).test",
                 deploymentTargets: configuration.deploymentTarget,
-                sources: ["Sources/**"],
+                sources: ["Tests/Sources/**"],
                 dependencies: [.target(name: name)]
             )
             targets.append(testTarget)
