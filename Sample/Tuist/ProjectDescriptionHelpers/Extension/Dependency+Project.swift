@@ -9,6 +9,7 @@ import ProjectDescription
 
 public extension TargetDependency {
     struct Features {
+        public struct Root {}
         public struct Main {}
     }
     
@@ -34,6 +35,14 @@ public extension TargetDependency.Features {
     static func project(name: String) -> TargetDependency {
         return .project(target: name, path: .relativeToFeature(name))
     }
+}
+
+// MARK: - Features
+public extension TargetDependency.Features.Root {
+    static let name = "Root"
+    
+    static let Feature = TargetDependency.Features.project(name: "\(name)Feature")
+    static let Interface = TargetDependency.project(target: "\(name)FeatureInterface", path: .relativeToFeature("\(name)Feature"))
 }
 
 public extension TargetDependency.Features.Main {
