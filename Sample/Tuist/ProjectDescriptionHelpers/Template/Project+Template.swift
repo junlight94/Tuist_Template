@@ -50,42 +50,55 @@ extension Project {
             )
         case let .feature(name, type):
             let featureTargetName = "\(name)Feature"
+            switch type {
+            case .standard:
+                let featureTarget = Target.target(
+                    name: featureTargetName,
+                    destinations: configuration.destination,
+                    product: product,
+                    bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased())",
+                    deploymentTargets: configuration.deploymentTarget,
+                    sources: ["Sources/**"],
+                    dependencies: dependencies
+                )
+                targets.append(featureTarget)
+                
+                let testTargetName = "\(featureTargetName)Tests"
+                let testTarget = Target.target(
+                    name: testTargetName,
+                    destinations: configuration.destination,
+                    product: .unitTests,
+                    bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased()).test",
+                    deploymentTargets: configuration.deploymentTarget,
+                    sources: ["Tests/Sources/**"],
+                    dependencies: [.target(name: featureTargetName)]
+                )
+                targets.append(testTarget)
+                
+                let featureScheme = Scheme.configureScheme(
+                    schemeName: featureTargetName
+                )
+                schemes.append(featureScheme)
+                
+                return Project(
+                    name: featureTargetName,
+                    organizationName: configuration.organizationName,
+                    settings: configuration.commonSettings,
+                    targets: targets,
+                    schemes: schemes
+                )
+            case .micro:
+                return configureMicroFeatureProject(
+                    configuration: configuration,
+                    product: product,
+                    name: featureTargetName,
+                    organizationName: configuration.organizationName,
+                    targets: targets,
+                    dependencies: dependencies,
+                    schemes: schemes
+                )
+            }
             
-            let featureTarget = Target.target(
-                name: featureTargetName,
-                destinations: configuration.destination,
-                product: product,
-                bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased())",
-                deploymentTargets: configuration.deploymentTarget,
-                sources: ["Sources/**"],
-                dependencies: dependencies
-            )
-            targets.append(featureTarget)
-            
-            let testTargetName = "\(featureTargetName)Tests"
-            let testTarget = Target.target(
-                name: testTargetName,
-                destinations: configuration.destination,
-                product: .unitTests,
-                bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased()).test",
-                deploymentTargets: configuration.deploymentTarget,
-                sources: ["Tests/Sources/**"],
-                dependencies: [.target(name: featureTargetName)]
-            )
-            targets.append(testTarget)
-            
-            let featureScheme = Scheme.configureScheme(
-                schemeName: featureTargetName
-            )
-            schemes.append(featureScheme)
-            
-            return Project(
-                name: featureTargetName,
-                organizationName: configuration.organizationName,
-                settings: configuration.commonSettings,
-                targets: targets,
-                schemes: schemes
-            )
         case let .module(name):
             let moduleTarget = Target.target(
                 name: name,
@@ -163,5 +176,108 @@ extension Project {
                 schemes: schemes
             )
         }
+    }
+    
+    // MARK: MicroFeature 생성
+    private static func configureMicroFeatureProject(
+        configuration: AppConfiguration,
+        product: Product,
+        name: String,
+        organizationName: String,
+        targets: [Target],
+        dependencies: [TargetDependency],
+        schemes: [Scheme]
+    ) -> Project {
+        
+        // Interface 타겟
+        let interfaceTargetName = "\(name)Interface"
+        let interfaceTarget = Target.target(
+            name: interfaceTargetName,
+            destinations: configuration.destination,
+            product: product,
+            bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())Interface",
+            deploymentTargets: configuration.deploymentTarget,
+            infoPlist: .default,
+            sources: ["Interface/Sources/**"],
+            dependencies: dependencies
+        )
+        
+        // Framework 타겟
+        let frameworkTargetName = name
+        let frameworkTarget = Target.target(
+            name: frameworkTargetName,
+            destinations: configuration.destination,
+            product: product,
+            bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())",
+            deploymentTargets: configuration.deploymentTarget,
+            infoPlist: .default,
+            sources: ["Sources/**"],
+            dependencies: [
+                .target(name: interfaceTargetName)
+            ]
+        )
+        
+        // Demo 타겟
+        let demoTargetName = "\(name)Demo"
+        let demoTarget = Target.target(
+            name: demoTargetName,
+            destinations: configuration.destination,
+            product: .app,
+            bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())Demo",
+            deploymentTargets: configuration.deploymentTarget,
+            infoPlist: .default,
+            sources: ["Demo/Sources/**"],
+            resources: [.glob(pattern: "Demo/Resources/**", excluding: [])],
+            dependencies: [
+                .target(name: frameworkTargetName)
+            ]
+        )
+        
+        // Test 타겟
+        let testTargetName = "\(name)Test"
+        let testTarget = Target.target(
+            name: testTargetName,
+            destinations: configuration.destination,
+            product: product,
+            bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())Test",
+            deploymentTargets: configuration.deploymentTarget,
+            infoPlist: .default,
+            sources: ["Tests/Sources/**"],
+            dependencies: [
+                .target(name: interfaceTargetName)
+            ]
+        )
+        
+        // Tests 타겟
+        let testsTargetName = "\(name)Tests"
+        let testsTarget = Target.target(
+            name: testsTargetName,
+            destinations: configuration.destination,
+            product: .unitTests,
+            bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())Tests",
+            deploymentTargets: configuration.deploymentTarget,
+            infoPlist: .default,
+            sources: ["Tests/Sources/**"],
+            dependencies: [
+                .target(name: frameworkTargetName),
+                .target(name: testTargetName)
+            ]
+        )
+        // 타겟 배열
+        let targets = [interfaceTarget, frameworkTarget, demoTarget, testsTarget, testTarget]
+        // 스킴 생성
+        var schemes: [Scheme] = []
+        
+        // 메인 스킴 생성
+        let mainScheme = Scheme.configureScheme(schemeName: name)
+        schemes.append(mainScheme)
+        
+        // 프로젝트 생성
+        return Project(
+            name: name,
+            organizationName: organizationName,
+            targets: targets,
+            schemes: schemes
+        )
     }
 }
