@@ -11,7 +11,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .feature(name: "Root"),
+    moduleType: .feature(name: "Root", type: .standard),
     product: .framework,
     dependencies: [
         .Features.Main.Feature

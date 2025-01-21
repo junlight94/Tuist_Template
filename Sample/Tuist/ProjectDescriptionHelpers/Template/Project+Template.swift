@@ -48,7 +48,7 @@ extension Project {
                 targets: targets,
                 schemes: schemes
             )
-        case let .feature(name: name):
+        case let .feature(name, type):
             let featureTargetName = "\(name)Feature"
             
             let featureTarget = Target.target(
@@ -87,6 +87,44 @@ extension Project {
                 schemes: schemes
             )
         case let .module(name):
+            let moduleTarget = Target.target(
+                name: name,
+                destinations: configuration.destination,
+                product: product,
+                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Sources/**"],
+                resources: hasResources ? ["Resources/**"] : [],
+                dependencies: dependencies
+            )
+            targets.append(moduleTarget)
+            
+            let testTargetName = "\(name)Tests"
+            let testTarget = Target.target(
+                name: testTargetName,
+                destinations: configuration.destination,
+                product: .unitTests,
+                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased()).test",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Tests/Sources/**"],
+                dependencies: [.target(name: name)]
+            )
+            targets.append(testTarget)
+            
+            let moduleScheme = Scheme.configureScheme(
+                schemeName: name
+            )
+            
+            schemes.append(moduleScheme)
+            
+            return Project(
+                name: name,
+                organizationName: configuration.organizationName,
+                settings: configuration.commonSettings,
+                targets: targets,
+                schemes: schemes
+            )
+        case let .domain(name):
             let moduleTarget = Target.target(
                 name: name,
                 destinations: configuration.destination,

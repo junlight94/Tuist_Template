@@ -1,6 +1,6 @@
 //
 //  Project.swift
-//  ProjectDescriptionHelpers
+//  Config
 //
 //  Created by Junyoung Lee on 1/9/25.
 //
@@ -9,9 +9,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .feature(name: "Main", type: .micro),
+    moduleType: .domain(name: "Domain"),
     product: .framework,
     dependencies: [
-        .Core.core
+        .Domains.Sample.Domain
     ]
 )
