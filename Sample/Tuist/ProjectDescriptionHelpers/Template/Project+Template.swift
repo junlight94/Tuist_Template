@@ -95,7 +95,8 @@ extension Project {
                     organizationName: configuration.organizationName,
                     targets: targets,
                     dependencies: dependencies,
-                    schemes: schemes
+                    schemes: schemes,
+                    settings: configuration.setting
                 )
             }
             
@@ -138,11 +139,12 @@ extension Project {
                 schemes: schemes
             )
         case let .domain(name):
+            let domainName = name == "Domain" ? "Domain" : "\(name)Domain"
             let moduleTarget = Target.target(
-                name: name,
+                name: domainName,
                 destinations: configuration.destination,
                 product: product,
-                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())",
+                bundleId: "\(configuration.bundleIdentifier).\(domainName.lowercased())",
                 deploymentTargets: configuration.deploymentTarget,
                 sources: ["Sources/**"],
                 resources: hasResources ? ["Resources/**"] : [],
@@ -150,26 +152,26 @@ extension Project {
             )
             targets.append(moduleTarget)
             
-            let testTargetName = "\(name)Tests"
+            let testTargetName = "\(domainName)Tests"
             let testTarget = Target.target(
                 name: testTargetName,
                 destinations: configuration.destination,
                 product: .unitTests,
-                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased()).test",
+                bundleId: "\(configuration.bundleIdentifier).\(domainName.lowercased()).test",
                 deploymentTargets: configuration.deploymentTarget,
                 sources: ["Tests/Sources/**"],
-                dependencies: [.target(name: name)]
+                dependencies: [.target(name: domainName)]
             )
             targets.append(testTarget)
             
             let moduleScheme = Scheme.configureScheme(
-                schemeName: name
+                schemeName: domainName
             )
             
             schemes.append(moduleScheme)
             
             return Project(
-                name: name,
+                name: domainName,
                 organizationName: configuration.organizationName,
                 settings: configuration.commonSettings,
                 targets: targets,
@@ -186,7 +188,8 @@ extension Project {
         organizationName: String,
         targets: [Target],
         dependencies: [TargetDependency],
-        schemes: [Scheme]
+        schemes: [Scheme],
+        settings: Settings
     ) -> Project {
         
         // Interface 타겟
@@ -242,7 +245,7 @@ extension Project {
             bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())Test",
             deploymentTargets: configuration.deploymentTarget,
             infoPlist: .default,
-            sources: ["Tests/Sources/**"],
+            sources: ["Test/Sources/**"],
             dependencies: [
                 .target(name: interfaceTargetName)
             ]
@@ -263,21 +266,18 @@ extension Project {
                 .target(name: testTargetName)
             ]
         )
-        // 타겟 배열
-        let targets = [interfaceTarget, frameworkTarget, demoTarget, testsTarget, testTarget]
-        // 스킴 생성
-        var schemes: [Scheme] = []
         
-        // 메인 스킴 생성
-        let mainScheme = Scheme.configureScheme(schemeName: name)
-        schemes.append(mainScheme)
+        let targets = [interfaceTarget, frameworkTarget, demoTarget, testsTarget, testTarget]
+        
+        let scheme = Scheme.configureDemoAppScheme(schemeName: name)
         
         // 프로젝트 생성
         return Project(
             name: name,
             organizationName: organizationName,
+            settings: settings,
             targets: targets,
-            schemes: schemes
+            schemes: [scheme]
         )
     }
 }

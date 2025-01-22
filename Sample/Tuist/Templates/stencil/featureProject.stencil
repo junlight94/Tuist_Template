@@ -2,9 +2,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .domain(name: "Sample"),
+    moduleType: .feature(name: "{{ name }}", type: .micro),
     product: .framework,
     dependencies: [
-        .Modules.shared
+        .Core.core
     ]
 )

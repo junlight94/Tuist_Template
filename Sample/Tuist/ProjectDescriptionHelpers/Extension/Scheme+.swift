@@ -19,7 +19,7 @@ extension Scheme {
         
         return [
             Scheme.scheme(
-                name: schemeName + "-Devlop",
+                name: schemeName + "-Develop",
                 shared: true,
                 buildAction: buildAction,
                 runAction: .runAction(configuration: developConfiguration),
@@ -46,6 +46,24 @@ extension Scheme {
                 analyzeAction: .analyzeAction(configuration: productionConfiguration)
             )
         ]
+    }
+    
+    static func configureDemoAppScheme(
+        schemeName: String
+    ) -> Scheme {
+        let developConfiguration: ConfigurationName = .configuration("Develop")
+        
+        let buildAction = BuildAction.buildAction(targets: [TargetReference(stringLiteral: schemeName)])
+        
+        return Scheme.scheme(
+            name: schemeName,
+            shared: true,
+            buildAction: buildAction,
+            runAction: .runAction(configuration: developConfiguration),
+            archiveAction: .archiveAction(configuration: developConfiguration),
+            profileAction: .profileAction(configuration: developConfiguration),
+            analyzeAction: .analyzeAction(configuration: developConfiguration)
+        )
     }
     
     static func configureScheme(
