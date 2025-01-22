@@ -27,8 +27,12 @@ module:
 		echo "❌ 모듈 이름을 입력해야 합니다!"; \
 		exit 1; \
 	fi; \
-	\
-	finalName="$${name}"; \
-	\
-	echo "🔨 모듈을 생성 중입니다: ⭐️ $${finalName}"; \
+	if [ "$$folderName" = "domain" ]; then \
+		sh ./Script/addNewDomain.sh "$$name"; \
+	elif [ "$$folderName" = "feature" ]; then \
+		sh ./Script/addNewFeature.sh "$$name"; \
+	else \
+		echo "🚨 Error: Unknown folderName '$$folderName'"; \
+		exit 1; \
+	fi; \
 	tuist scaffold "$$folderName" --name "$$name" --path "$$destination"

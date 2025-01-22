@@ -19,6 +19,8 @@ public extension TargetDependency.Domains {
     }
 }
 
+
+
 public extension TargetDependency.Domains.Sample {
     static let name = "Sample"
     
