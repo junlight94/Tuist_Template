@@ -12,7 +12,6 @@ let project = Project.configure(
     moduleType: .app,
     product: .app,
     dependencies: [
-        .Features.Root.Feature,
-        .Modules.data
+        .Umbrella.umbrella
     ]
 )

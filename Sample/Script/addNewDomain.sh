@@ -1,10 +1,11 @@
 #!/bin/bash
 
 NAME=$1
+SERVICE_NAME=$2
 
 # Dependency, RootFeature 파일 경로
 DEPENDENCY_FILE="./Tuist/ProjectDescriptionHelpers/Extension/Dependency+Domain.swift"
-PARENT_MODULE="./Projects/Domains/Domain/Project.swift"
+PARENT_MODULE="./Projects/$SERVICE_NAME/Domains/Domain/Project.swift"
 
 # 이름 전달 확인
 if [ -z "$NAME" ]; then
@@ -33,13 +34,16 @@ NEW_DEPENDENCY_EXTENSION=$(cat <<EOF
 public extension TargetDependency.Domains.$NAME {
     static let name = "$NAME"
     
-    static let Domain = TargetDependency.Domains.project(name: "\(name)Domain")
+    static let domain = TargetDependency.Domains.project(
+        name: "\(name)",
+        service: .sample
+    )
 }
 EOF
 )
 
 # Root에 추가할 Dependency
-NEW_ROOT_DEPENDENCY="        .Domains.$NAME.Domain,"
+NEW_ROOT_DEPENDENCY="        .Domains.$NAME.domain,"
 
 # Feature Struct 추가
 sed -i '' "/struct Domains {/a\\

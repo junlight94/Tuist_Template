@@ -8,15 +8,17 @@
 import ProjectDescription
 
 let nameAttribute: Template.Attribute = .required("name")
+let serviceAtrribute: Template.Attribute = .required("service")
 
 let template = Template(
     description: "Domain module template",
     attributes: [
-        nameAttribute
+        nameAttribute,
+        serviceAtrribute
     ],
     items: [
         // MARK: Project
-        .file(path: "\(nameAttribute)Domain/Project.swift",
+        .file(path: "\(serviceAtrribute)/\(nameAttribute)Domain/Project.swift",
               templatePath: "../stencil/domainProject.stencil"),
         
         // MARK: Sources

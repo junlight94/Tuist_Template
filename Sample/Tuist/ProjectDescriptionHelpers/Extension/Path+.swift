@@ -8,31 +8,31 @@
 import ProjectDescription
 
 public extension ProjectDescription.Path {
-    static func relativeToFeature(_ path: String) -> Self {
-        return .relativeToRoot("Projects/Features/\(path)")
+    static func relativeToFeature(path: String, service: ServiceType) -> Self {
+        return .relativeToRoot("Projects/\(service.rawValue)/Features/\(path)")
     }
     
-    static func relativeToDomain(_ path: String) -> Self {
-        return .relativeToRoot("Projects/Domains/\(path)")
+    static func relativeToDomain(path: String, service: ServiceType) -> Self {
+        return .relativeToRoot("Projects/\(service.rawValue)/Domains/\(path)")
     }
     
-    static func relativeToModule(_ path: String) -> Self {
-        return .relativeToRoot("Projects/Modules/\(path)")
+    static func relativeToModule(path: String, service: ServiceType) -> Self {
+        return .relativeToRoot("Projects/\(service.rawValue)/Modules/\(path)")
     }
     
-    static func relativeToCore(_ path: String) -> Self {
-        return .relativeToRoot("Projects/CoreKit/\(path)")
+    static func relativeToCore(path: String, service: ServiceType) -> Self {
+        return .relativeToRoot("Projects/\(service.rawValue)/CoreKit/\(path)")
     }
     
-    static var data: Self {
-        return .relativeToRoot("Projects/Data/Data")
+    static func releativeData(_ service: ServiceType) -> Self {
+        return .relativeToRoot("Projects/\(service.rawValue)/Data/Data")
     }
     
-    static var domain: Self {
-        return .relativeToRoot("Projects/Domains/Domain")
+    static func releativShared(_ service: ServiceType) -> Self {
+        return .relativeToRoot("Projects/\(service.rawValue)/Shared")
     }
     
-    static var shared: Self {
-        return .relativeToRoot("Projects/Shared")
+    static func relativeUmbrella() -> Self {
+        return .relativeToRoot("Projects/Umbrella")
     }
 }
