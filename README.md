@@ -31,7 +31,7 @@
 <br>
 
 ## 의존성 그래프
-<img src="https://github.com/junlight94/Tuist_Template/blob/main/TestProject/graph.png" width=350/>
+<img src="https://github.com/junlight94/Tuist_Template/blob/main/Sample/graph.png" width=350/>
 
 - Data
     - 실제 데이터를 가져오고 저장하는 역할을 담당.
