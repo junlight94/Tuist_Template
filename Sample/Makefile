@@ -7,6 +7,7 @@ module:
 	folder_count=$$(ls ./Projects | grep "Service" | wc -l); \
 	if [ "$$path_option" -ge 1 ] && [ "$$path_option" -le "$$folder_count" ]; then \
 		selected_service=$$(ls ./Projects | grep "Service" | sed -n "$${path_option}p"); \
+		service_name=$$(ls ./Projects | grep "Service" | sed -n "$${path_option}p" | sed 's/Service//' | tr '[:upper:]' '[:lower:]'); \
 		echo "✅ 선택된 서비스: $$selected_service"; \
 	else \
 		echo "❌ 잘못된 입력입니다."; \
@@ -48,6 +49,6 @@ module:
 		echo "🚨 Error: Unknown folderName '$$folderName'"; \
 		exit 1; \
 	fi; \
-	echo "\n"
+	echo "\n"; \
 	echo "🔨 모듈 생성중입니다"; \
-	tuist scaffold "$$folderName" --name "$$name" --path "$$destination"
+	tuist scaffold "$$folderName" --name "$$name" --service "$$service_name" --path "$$destination"

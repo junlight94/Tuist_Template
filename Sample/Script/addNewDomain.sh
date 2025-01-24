@@ -35,7 +35,7 @@ public extension TargetDependency.Domains.$NAME {
     static let name = "$NAME"
     
     static let domain = TargetDependency.Domains.project(
-        name: "\(name)",
+        name: "\(name)Domain",
         service: .sample
     )
 }

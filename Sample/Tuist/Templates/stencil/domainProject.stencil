@@ -3,8 +3,8 @@ import ProjectDescriptionHelpers
 
 let project = Project.configure(
     moduleType: .domain(name: "{{ name }}"),
-    product: .framework,
+    product: .staticFramework,
     dependencies: [
-        .Modules.shared
+        .Modules.shared(.{{ service }})
     ]
 )

@@ -12,7 +12,6 @@ let project = Project.configure(
     moduleType: .service(name: "Sample"),
     product: .staticFramework,
     dependencies: [
-        .Features.Test.feature,
         .Features.Main.feature,
         .Modules.data(.sample)
     ]

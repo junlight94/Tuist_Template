@@ -8,11 +8,13 @@
 import ProjectDescription
 
 let nameAttribute: Template.Attribute = .required("name")
+let serviceAttribute: Template.Attribute = .required("service")
 
 let template = Template(
     description: "Domain module template",
     attributes: [
-        nameAttribute
+        nameAttribute,
+        serviceAttribute
     ],
     items: [
         // MARK: Project
