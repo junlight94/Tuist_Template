@@ -12,7 +12,6 @@ let project = Project.configure(
     moduleType: .module(name: "DesignKit"),
     product: .staticFramework,
     dependencies: [
-        .Domains.Domain.domain,
-        .Library.snapKit
+        .Library.snapKit,
     ]
 )
