@@ -1,10 +1,17 @@
+//
+//  Project.swift
+//  Config
+//
+//  Created by Junyoung on 1/9/25.
+//
+
 import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .feature(name: "{{ name }}", type: .micro),
+    moduleType: .module(name: "NetworkModule"),
     product: .staticFramework,
     dependencies: [
-        .Core.core(.{{ service }})
+        .Library.alamofire
     ]
 )

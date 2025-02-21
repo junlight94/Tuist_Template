@@ -15,21 +15,38 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.Features {
-    static func project(name: String) -> TargetDependency {
-        return .project(target: name, path: .relativeToFeature(name))
+    static func project(name: String, service: ServiceType) -> TargetDependency {
+        return .project(
+            target: name,
+            path: .relativeToFeature(path: name, service: service)
+        )
     }
 }
 
 public extension TargetDependency.Features.Root {
     static let name = "Root"
     
-    static let Feature = TargetDependency.Features.project(name: "\(name)Feature")
-    static let Interface = TargetDependency.project(target: "\(name)FeatureInterface", path: .relativeToFeature("\(name)Feature"))
+    static let feature = TargetDependency.Features.project(
+        name: "\(name)Feature",
+        service: .sample
+    )
+    
+    static let interface = TargetDependency.project(
+        target: "\(name)FeatureInterface",
+        path: .relativeToFeature(path: "\(name)Feature", service: .sample)
+    )
 }
 
 public extension TargetDependency.Features.Main {
     static let name = "Main"
     
-    static let Feature = TargetDependency.Features.project(name: "\(name)Feature")
-    static let Interface = TargetDependency.project(target: "\(name)FeatureInterface", path: .relativeToFeature("\(name)Feature"))
+    static let feature = TargetDependency.Features.project(
+        name: "\(name)Feature",
+        service: .sample
+    )
+    
+    static let interface = TargetDependency.project(
+        target: "\(name)FeatureInterface",
+        path: .relativeToFeature(path: "\(name)Feature", service: .sample)
+    )
 }

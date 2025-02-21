@@ -1,17 +1,17 @@
 //
 //  Project.swift
-//  TestProjectManifests
+//  Config
 //
-//  Created by Junyoung on 1/8/25.
+//  Created by Junyoung on 1/9/25.
 //
 
 import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .app,
-    product: .app,
+    moduleType: .module(name: "DesignKit"),
+    product: .framework,
     dependencies: [
-        .Umbrella.umbrella
+        .Library.snapKit,
     ]
 )

@@ -12,6 +12,7 @@ extension Project {
         moduleType: ModuleType,
         product: Product,
         dependencies: [TargetDependency],
+        hasTests: Bool = true,
         hasResources: Bool = false
     ) -> Project {
         
@@ -48,6 +49,41 @@ extension Project {
                 targets: targets,
                 schemes: schemes
             )
+        case let .service(name):
+            let serviceTargetName = "\(name)Service"
+            
+            let serviceTarget = Target.target(
+                name: serviceTargetName,
+                destinations: configuration.destination,
+                product: product,
+                bundleId: "\(configuration.bundleIdentifier).service.\(name.lowercased())",
+                deploymentTargets: configuration.deploymentTarget,
+                sources: ["Sources/**"],
+                dependencies: dependencies
+            )
+            targets.append(serviceTarget)
+            
+            if hasTests {
+                let testTargetName = "\(serviceTargetName)Tests"
+                let testTarget = Target.target(
+                    name: testTargetName,
+                    destinations: configuration.destination,
+                    product: .unitTests,
+                    bundleId: "\(configuration.bundleIdentifier).service.\(name.lowercased()).test",
+                    deploymentTargets: configuration.deploymentTarget,
+                    sources: ["Tests/Sources/**"],
+                    dependencies: [.target(name: serviceTargetName)]
+                )
+                targets.append(testTarget)
+            }
+            
+            return Project(
+                name: serviceTargetName,
+                organizationName: configuration.organizationName,
+                settings: configuration.commonSettings,
+                targets: targets,
+                schemes: schemes
+            )
         case let .feature(name, type):
             let featureTargetName = "\(name)Feature"
             switch type {
@@ -63,17 +99,19 @@ extension Project {
                 )
                 targets.append(featureTarget)
                 
-                let testTargetName = "\(featureTargetName)Tests"
-                let testTarget = Target.target(
-                    name: testTargetName,
-                    destinations: configuration.destination,
-                    product: .unitTests,
-                    bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased()).test",
-                    deploymentTargets: configuration.deploymentTarget,
-                    sources: ["Tests/Sources/**"],
-                    dependencies: [.target(name: featureTargetName)]
-                )
-                targets.append(testTarget)
+                if hasTests {
+                    let testTargetName = "\(featureTargetName)Tests"
+                    let testTarget = Target.target(
+                        name: testTargetName,
+                        destinations: configuration.destination,
+                        product: .unitTests,
+                        bundleId: "\(configuration.bundleIdentifier).feature.\(name.lowercased()).test",
+                        deploymentTargets: configuration.deploymentTarget,
+                        sources: ["Tests/Sources/**"],
+                        dependencies: [.target(name: featureTargetName)]
+                    )
+                    targets.append(testTarget)
+                }
                 
                 let featureScheme = Scheme.configureScheme(
                     schemeName: featureTargetName
@@ -113,17 +151,19 @@ extension Project {
             )
             targets.append(moduleTarget)
             
-            let testTargetName = "\(name)Tests"
-            let testTarget = Target.target(
-                name: testTargetName,
-                destinations: configuration.destination,
-                product: .unitTests,
-                bundleId: "\(configuration.bundleIdentifier).\(name.lowercased()).test",
-                deploymentTargets: configuration.deploymentTarget,
-                sources: ["Tests/Sources/**"],
-                dependencies: [.target(name: name)]
-            )
-            targets.append(testTarget)
+            if hasTests {
+                let testTargetName = "\(name)Tests"
+                let testTarget = Target.target(
+                    name: testTargetName,
+                    destinations: configuration.destination,
+                    product: .unitTests,
+                    bundleId: "\(configuration.bundleIdentifier).\(name.lowercased()).test",
+                    deploymentTargets: configuration.deploymentTarget,
+                    sources: ["Tests/Sources/**"],
+                    dependencies: [.target(name: name)]
+                )
+                targets.append(testTarget)
+            }
             
             let moduleScheme = Scheme.configureScheme(
                 schemeName: name
