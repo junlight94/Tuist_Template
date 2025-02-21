@@ -1,31 +1,44 @@
+## 전체 모듈 구조
+<img src="https://github.com/user-attachments/assets/eab66744-bfdc-4126-8a42-5c68cf0720dc" width=700 alt="Module" />
+
+Feature에는 MicroFeature 아키텍처를 적용하였습니다. <br>
+이를 통해 각 Feature가 독립적으로 동작하면서도, 유연하게 수평 확장될 수 있도록 구성하였습니다.
+
+✅ Demo → Feature를 단독으로 실행할 수 있는 데모 앱 모듈 <br>
+✅ Test → Feature를 검증하는 테스트 코드 <br>
+✅ Feature → 실제 Feature의 구현체 <br>
+✅ Testing → Mock 데이터 및 테스트 지원 유틸리티 <br>
+✅ Interface → Feature 간의 의존성을 줄이기 위한 Interface 정의
+
+<br>
+
 ## Clean Architecture 기반의 모듈 구조
 ![image](https://github.com/user-attachments/assets/1aaa73d0-e3c2-4fb3-9e7a-d967c8439295)
 
 <br>
 
-## 폴더 구조
+## 프로젝트 폴더 구조
 ```
 ├── AppModule
 │   └── Sample
-├── CoreKit
-│   ├── Core
-│   └── DesignKit
-├── Data
-│   ├── Data.xcodeproj
-│   ├── Derived
-│   ├── Sources
-│   └── Tests
-├── Domain
-│   ├── Derived
-│   ├── Domain.xcodeproj
-│   ├── Sources
-│   └── Tests
-├── Features
-│   └── MainFeature
-└── Modules
-    ├── NetworkModule
-    ├── Shared
-    └── ThirdPartyLibrary
+├── SampleService
+│   ├── CoreKit
+│   │   ├── Core
+│   │   └── DesignKit
+│   ├── Data
+│   ├── Domains
+│   │   ├── Domain
+│   │   └── SampleDomain
+│   ├── Features
+│   │   ├── MainFeature
+│   │   ├── RootFeature
+│   │   └── SampleFeature
+│   ├── Modules
+│   │   ├── NetworkModule
+│   │   ├── Shared
+│   │   └── ThirdPartyLibrary
+│   └── Service
+└── Umbrella
 ```
 
 <br>
@@ -59,3 +72,26 @@
 
 - ThirdPartyLibrary
     - 앱에서 공통으로 사용하는 외부 라이브러리 관리.
+
+<br>
+
+## Scaffold + ShellScript를 통한 모듈 자동 생성 및 의존성 연결
+
+Project 폴더 위치에서 `make moule` <br>
+module을 만들 Service를 선택합니다. (현재는 SampleService 1개)
+
+![스크린샷 2025-02-21 오후 2 03 02](https://github.com/user-attachments/assets/31b39af4-ffc2-4d54-b692-3da76dd9108b)
+
+<br>
+
+만들 모듈의 종류 선택 (Feature, Domain)
+
+![스크린샷 2025-02-21 오후 2 03 27](https://github.com/user-attachments/assets/b749950d-88c1-4396-99e8-0cdb349b54ad)
+
+<br>
+
+모듈 이름 입력 후 자동 생성
+
+![스크린샷 2025-02-21 오후 2 04 04](https://github.com/user-attachments/assets/6ccd30f9-0c48-4d99-9685-c0c69808162c)
+
+
