@@ -8,7 +8,7 @@ Feature에는 MicroFeature 아키텍처를 적용하였습니다. <br>
 ✅ Test → Feature를 검증하는 테스트 코드 <br>
 ✅ Feature → 실제 Feature의 구현체 <br>
 ✅ Testing → Mock 데이터 및 테스트 지원 유틸리티 <br>
-✅ Interface → Feature 간의 의존성을 줄이기 위한 Interface 정의
+✅ Interface → Feature 간의 의존성을 줄이기 위한 Interface 정의 (Feature간의 통신은 Interface를 통해서 상위 모듈에서 주입 받습니다.)
 
 <br>
 
