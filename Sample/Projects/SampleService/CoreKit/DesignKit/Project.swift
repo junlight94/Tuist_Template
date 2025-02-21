@@ -10,7 +10,7 @@ import ProjectDescriptionHelpers
 
 let project = Project.configure(
     moduleType: .module(name: "DesignKit"),
-    product: .staticFramework,
+    product: .framework,
     dependencies: [
         .Library.snapKit,
     ]
