@@ -1,18 +1,17 @@
 //
 //  Project.swift
-//  Config
+//  ProjectDescriptionHelpers
 //
-//  Created by Junyoung on 1/24/25.
+//  Created by Junyoung Lee on 1/9/25.
 //
 
 import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .service(name: "Sample"),
+    moduleType: .feature(name: "Root", type: .standard),
     product: .staticFramework,
     dependencies: [
-        .Features.Main.feature,
-        .Modules.data(.sample)
+        .Features.Main.feature
     ]
 )

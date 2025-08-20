@@ -15,10 +15,10 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.Features {
-    static func project(name: String, service: ServiceType) -> TargetDependency {
+    static func project(name: String) -> TargetDependency {
         return .project(
             target: name,
-            path: .relativeToFeature(path: name, service: service)
+            path: .relativeToFeature(path: name)
         )
     }
 }
@@ -27,13 +27,12 @@ public extension TargetDependency.Features.Root {
     static let name = "Root"
     
     static let feature = TargetDependency.Features.project(
-        name: "\(name)Feature",
-        service: .sample
+        name: "\(name)Feature"
     )
     
     static let interface = TargetDependency.project(
         target: "\(name)FeatureInterface",
-        path: .relativeToFeature(path: "\(name)Feature", service: .sample)
+        path: .relativeToFeature(path: "\(name)Feature")
     )
 }
 
@@ -41,12 +40,11 @@ public extension TargetDependency.Features.Main {
     static let name = "Main"
     
     static let feature = TargetDependency.Features.project(
-        name: "\(name)Feature",
-        service: .sample
+        name: "\(name)Feature"
     )
     
     static let interface = TargetDependency.project(
         target: "\(name)FeatureInterface",
-        path: .relativeToFeature(path: "\(name)Feature", service: .sample)
+        path: .relativeToFeature(path: "\(name)Feature")
     )
 }

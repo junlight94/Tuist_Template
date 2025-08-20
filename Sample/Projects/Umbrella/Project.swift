@@ -12,7 +12,8 @@ let project = Project.configure(
     moduleType: .module(name: "Umbrella"),
     product: .framework,
     dependencies: [
-        .Services.Sample.service
+        .Features.Root.feature,
+        .Modules.data
     ],
     hasTests: false
 )

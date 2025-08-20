@@ -16,10 +16,16 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.Domains {
-    static func project(name: String, service: ServiceType) -> TargetDependency {
+    static func project(name: String) -> TargetDependency {
         return .project(
             target: name,
-            path: .relativeToDomain(path: name, service: service)
+            path: .relativeToDomain(path: name)
+        )
+    }
+    
+    static var domain: TargetDependency {
+        TargetDependency.Domains.project(
+            name: "Domain"
         )
     }
 }
@@ -28,8 +34,7 @@ public extension TargetDependency.Domains.Domain {
     static let name = "Domain"
     
     static let domain = TargetDependency.Domains.project(
-        name: "\(name)",
-        service: .sample
+        name: "\(name)"
     )
 }
 
@@ -37,8 +42,7 @@ public extension TargetDependency.Domains.Sample {
     static let name = "Sample"
     
     static let domain = TargetDependency.Domains.project(
-        name: "\(name)Domain",
-        service: .sample
+        name: "\(name)Domain"
     )
 }
 
@@ -46,7 +50,6 @@ public extension TargetDependency.Domains.My {
     static let name = "My"
     
     static let domain = TargetDependency.Domains.project(
-        name: "\(name)Domain",
-        service: .sample
+        name: "\(name)Domain"
     )
 }

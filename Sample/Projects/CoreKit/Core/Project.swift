@@ -12,7 +12,7 @@ let project = Project.configure(
     moduleType: .module(name: "Core"),
     product: .staticFramework,
     dependencies: [
-        .Core.designKit(.sample),
-        .Domains.Domain.domain,
+        .Core.designKit,
+        .Domains.domain,
     ]
 )

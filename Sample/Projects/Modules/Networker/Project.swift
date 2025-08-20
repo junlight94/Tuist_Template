@@ -9,9 +9,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .module(name: "Shared"),
+    moduleType: .module(name: "Networker"),
     product: .staticFramework,
     dependencies: [
-        .Modules.thirdPartyLibrary(.sample)
+        .Library.alamofire
     ]
 )

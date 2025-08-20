@@ -14,47 +14,40 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.Modules {
-    static func data(_ service: ServiceType) -> TargetDependency {
+    static var data: TargetDependency {
         TargetDependency.project(
             target: "Data",
-            path: .releativeData(service)
+            path: .relativeData()
         )
     }
     
-    static func shared(_ service: ServiceType) -> TargetDependency {
+    static var shared: TargetDependency {
         TargetDependency.project(
             target: "Shared",
-            path: .relativeToModule(path: "Shared", service: service)
+            path: .relativeToModule(path: "Shared")
         )
     }
     
-    static func networkModule(_ service: ServiceType) -> TargetDependency {
+    static var networker: TargetDependency {
         TargetDependency.project(
-            target: "NetworkModule",
-            path: .relativeToModule(path: "NetworkModule", service: service)
-        )
-    }
-    
-    static func thirdPartyLibrary(_ service: ServiceType) -> TargetDependency {
-        TargetDependency.project(
-            target: "ThirdPartyLibrary",
-            path: .relativeToModule(path: "ThirdPartyLibrary", service: service)
+            target: "Networker",
+            path: .relativeToModule(path: "Networker")
         )
     }
 }
 
 public extension TargetDependency.Core {
-    static func designKit(_ service: ServiceType) -> TargetDependency {
+    static var designKit: TargetDependency {
         TargetDependency.project(
             target: "DesignKit",
-            path: .relativeToCore(path: "DesignKit", service: service)
+            path: .relativeToCore(path: "DesignKit")
         )
     }
     
-    static func core(_ service: ServiceType) -> TargetDependency {
+    static var core: TargetDependency {
         TargetDependency.project(
             target: "Core",
-            path: .relativeToCore(path: "Core", service: service)
+            path: .relativeToCore(path: "Core")
         )
     }
 }
