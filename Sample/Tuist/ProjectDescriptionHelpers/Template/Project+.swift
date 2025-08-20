@@ -51,6 +51,9 @@ extension Project {
         dependencies: [TargetDependency]
     ) -> Self {
         var targets: [Target] = []
+        var schemes: [Scheme] = [Scheme.configureScheme(
+            schemeName: moduleName
+        )]
         
         let frameworkTarget = createFrameworkTarget(
             name: moduleName,
@@ -77,18 +80,15 @@ extension Project {
                 configuration: configuration
             )
             targets.append(demoTarget)
+            schemes.append(Scheme.configureDemoAppScheme(schemeName: "\(moduleName)Demo"))
         }
-        
-        let moduleScheme = Scheme.configureScheme(
-            schemeName: moduleName
-        )
         
         return Project(
             name: moduleName,
             organizationName: configuration.organizationName,
             settings: configuration.commonSettings,
             targets: targets,
-            schemes: [moduleScheme]
+            schemes: schemes
         )
     }
     
@@ -148,7 +148,10 @@ extension Project {
         
         let targets = [interfaceTarget, frameworkTarget, demoTarget, testsTarget, testTarget]
         
-        let scheme = Scheme.configureDemoAppScheme(schemeName: name)
+        let schemes = [
+            Scheme.configureScheme(schemeName: name),
+            Scheme.configureDemoAppScheme(schemeName: "\(name)Demo")
+        ]
         
         // 프로젝트 생성
         return Project(
@@ -156,7 +159,7 @@ extension Project {
             organizationName: organizationName,
             settings: settings,
             targets: targets,
-            schemes: [scheme]
+            schemes: schemes
         )
     }
 }
