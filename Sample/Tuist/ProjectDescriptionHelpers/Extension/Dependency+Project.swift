@@ -7,53 +7,37 @@
 
 import ProjectDescription
 
-public extension TargetDependency {
-    struct Modules {}
-    struct Core {}
-    struct Umbrella {}
-}
-
-public extension TargetDependency.Modules {
-    static var data: TargetDependency {
-        TargetDependency.project(
-            target: "Data",
-            path: .relativeData()
-        )
-    }
+public extension TargetDependency.Module {
+    static let data = dependency(
+        target: "Data",
+        path: .relativeData()
+    )
     
-    static var shared: TargetDependency {
-        TargetDependency.project(
-            target: "Shared",
-            path: .relativeToModule(path: "Shared")
-        )
-    }
+    static let shared = dependency(
+        target: "Shared",
+        path: .relativShared()
+    )
     
-    static var networker: TargetDependency {
-        TargetDependency.project(
-            target: "Networker",
-            path: .relativeToModule(path: "Networker")
-        )
-    }
+    static let networker = dependency(
+        target: "Networker",
+        path: .relativeToModule(path: "Networker")
+    )
 }
 
 public extension TargetDependency.Core {
-    static var designKit: TargetDependency {
-        TargetDependency.project(
-            target: "DesignKit",
-            path: .relativeToCore(path: "DesignKit")
-        )
-    }
+    static let designKit = dependency(
+        target: "DesignKit",
+        path: .relativeToCore(path: "DesignKit")
+    )
     
-    static var core: TargetDependency {
-        TargetDependency.project(
-            target: "Core",
-            path: .relativeToCore(path: "Core")
-        )
-    }
+    static let core = dependency(
+        target: "Core",
+        path: .relativeToCore(path: "Core")
+    )
 }
 
-public extension TargetDependency.Umbrella {
-    static let umbrella = TargetDependency.project(
+public extension TargetDependency.App {
+    static let umbrella = dependency(
         target: "Umbrella",
         path: .relativeUmbrella()
     )

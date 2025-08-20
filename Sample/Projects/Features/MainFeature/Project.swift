@@ -9,7 +9,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .feature(name: "Main", type: .micro),
+    moduleType: .micro(name: "MainFeature"),
     product: .staticFramework,
     dependencies: [
         .Core.core

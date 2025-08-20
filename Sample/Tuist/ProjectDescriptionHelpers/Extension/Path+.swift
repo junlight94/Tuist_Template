@@ -29,7 +29,7 @@ public extension ProjectDescription.Path {
     }
     
     static func relativShared() -> Self {
-        return .relativeToRoot("Projects/Shared")
+        return .relativeToRoot("Projects/Modules/Shared")
     }
     
     static func relativeUmbrella() -> Self {

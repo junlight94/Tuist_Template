@@ -9,9 +9,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .feature(name: "Root", type: .standard),
+    moduleType: .module(name: "RootFeature"),
     product: .staticFramework,
     dependencies: [
-        .Features.Main.feature
+        .Feature.main
     ]
 )

@@ -2,9 +2,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .domain(name: "Sample"),
+    moduleType: .module(name: "SampleDomain"),
     product: .staticFramework,
     dependencies: [
-        .Modules.shared
+        .Module.shared
     ]
 )
