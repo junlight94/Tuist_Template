@@ -12,6 +12,7 @@ let project = Project.configure(
     moduleType: .module(name: "Networker"),
     product: .staticFramework,
     dependencies: [
-        .Library.alamofire
+        .Library.alamofire,
+        .Domain.domain
     ]
 )
