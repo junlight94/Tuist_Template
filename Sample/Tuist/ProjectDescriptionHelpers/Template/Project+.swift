@@ -141,7 +141,7 @@ extension Project {
             name: name,
             configuration: configuration,
             dependencies: [
-                .target(name: "\(name)Tests"),
+                .target(name: "\(name)Test"),
                 .target(name: name)
             ]
         )
@@ -230,7 +230,7 @@ extension Project {
             bundleId: "\(configuration.bundleIdentifier).\(name.lowercased())Tests",
             deploymentTargets: configuration.deploymentTarget,
             sources: ["Tests/Sources/**"],
-            dependencies: [.target(name: name)]
+            dependencies: dependencies
         )
     }
 }
