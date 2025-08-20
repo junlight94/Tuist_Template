@@ -1,5 +1,5 @@
 ## 전체 모듈 구조
-<img src="https://github.com/user-attachments/assets/eab66744-bfdc-4126-8a42-5c68cf0720dc" width=700 alt="Module" />
+<img src="https://github.com/user-attachments/assets/fd7f7621-0948-41ab-8a96-5f1155675f1e" width=700 alt="Module" />
 
 Feature에는 MicroFeature 아키텍처를 적용하였습니다. <br>
 이를 통해 각 Feature가 독립적으로 동작하면서도, 유연하게 수평 확장될 수 있도록 구성하였습니다.
@@ -21,30 +21,27 @@ Feature에는 MicroFeature 아키텍처를 적용하였습니다. <br>
 ```
 ├── AppModule
 │   └── Sample
-├── SampleService
-│   ├── CoreKit
-│   │   ├── Core
-│   │   └── DesignKit
-│   ├── Data
-│   ├── Domains
-│   │   ├── Domain
-│   │   └── SampleDomain
-│   ├── Features
-│   │   ├── MainFeature
-│   │   ├── RootFeature
-│   │   └── SampleFeature
-│   ├── Modules
-│   │   ├── NetworkModule
-│   │   ├── Shared
-│   │   └── ThirdPartyLibrary
-│   └── Service
+│── CoreKit
+│   ├── Core
+│   └── DesignKit
+│── Data
+│── Domains
+│   ├── Domain
+│   └── SampleDomain
+│── Features
+│   ├── MainFeature
+│   ├── RootFeature
+│   └── SampleFeature
+│── Modules
+│   ├── Networker
+│   ├── Shared
 └── Umbrella
 ```
 
 <br>
 
 ## 의존성 그래프
-<img src="https://github.com/junlight94/Tuist_Template/blob/service/Sample/graph.png" />
+<img src="https://github.com/junlight94/Tuist_Template/blob/main/Sample/graph.png" />
 
 - Data
     - 실제 데이터를 가져오고 저장하는 역할을 담당.
