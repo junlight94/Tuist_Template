@@ -13,5 +13,6 @@ let project = Project.configure(
     product: .staticFramework,
     dependencies: [
         .Domain.sample,
-    ]
+    ],
+    hasTests: true
 )

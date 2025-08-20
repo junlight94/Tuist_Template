@@ -13,5 +13,6 @@ let project = Project.configure(
     product: .framework,
     dependencies: [
         .Library.snapKit,
-    ]
+    ],
+    hasDemo: true
 )

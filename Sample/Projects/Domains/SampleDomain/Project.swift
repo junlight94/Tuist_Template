@@ -6,5 +6,6 @@ let project = Project.configure(
     product: .staticFramework,
     dependencies: [
         .Module.shared
-    ]
+    ],
+    hasTests: true
 )

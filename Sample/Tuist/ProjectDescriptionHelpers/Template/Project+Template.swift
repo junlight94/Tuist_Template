@@ -13,8 +13,9 @@ extension Project {
         product: Product,
         dependencies: [TargetDependency],
         interfaceDependencies: [TargetDependency] = [],
-        hasTests: Bool = true,
-        hasResources: Bool = false
+        hasTests: Bool = false,
+        hasResources: Bool = false,
+        hasDemo: Bool = false
     ) -> Project {
         let configuration = AppConfiguration()
         
@@ -42,6 +43,7 @@ extension Project {
                 product: product,
                 hasResources: hasResources,
                 hasTests: hasTests,
+                hasDemo: hasDemo,
                 dependencies: dependencies
             )
         }
