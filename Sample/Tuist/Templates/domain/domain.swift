@@ -18,7 +18,7 @@ let template = Template(
         // MARK: Project
         .file(
             path: "\(nameAttribute)Domain/Project.swift",
-            templatePath: "../stencil/domainProject.stencil"
+            templatePath: "../stencil/Domain/domainProject.stencil"
         ),
         
         // MARK: Sources
@@ -30,13 +30,13 @@ let template = Template(
         // MARK: Tests
         .file(
             path: "\(nameAttribute)Domain/Tests/Sources/\(nameAttribute)Tests.swift",
-            templatePath: "../stencil/domainTests.stencil"
+            templatePath: "../stencil/Domain/domainTests.stencil"
         ),
         
         // MARK: Interface
         .file(
             path: "\(nameAttribute)Domain/Interface/Sources/\(nameAttribute)UseCase.swift",
-            templatePath: "../stencil/usecase.stencil"
+            templatePath: "../stencil/Domain/usecase.stencil"
         ),
     ]
 )

@@ -8,18 +8,16 @@
 import ProjectDescription
 
 let nameAttribute: Template.Attribute = .required("name")
-let serviceAttribute: Template.Attribute = .required("service")
 
 let template = Template(
     description: "Feature module template",
     attributes: [
-        nameAttribute,
-        serviceAttribute
+        nameAttribute
     ],
     items: [
         // MARK: Project
         .file(path: "\(nameAttribute)Feature/Project.swift",
-              templatePath: "../stencil/featureProject.stencil"),
+              templatePath: "../stencil/Feature/featureProject.stencil"),
         
         // MARK: Sources
         .file(path: "\(nameAttribute)Feature/Sources/Sample.swift",
@@ -27,7 +25,7 @@ let template = Template(
         
         // MARK: Tests
         .file(path: "\(nameAttribute)Feature/Tests/Sources/Sample.swift",
-              templatePath: "../stencil/sample.stencil"),
+              templatePath: "../stencil/Feature/featureTests.stencil"),
         
         // MARK: Test
         .file(path: "\(nameAttribute)Feature/Test/Sources/Sample.swift",
@@ -42,7 +40,7 @@ let template = Template(
               templatePath: "../stencil/app.stencil"),
         
         // MARK: Interface
-        .file(path: "\(nameAttribute)Feature/Interface/Sources/Sample.swift",
+        .file(path: "\(nameAttribute)Feature/Interface/Sources/\(nameAttribute)Feature.swift",
               templatePath: "../stencil/sample.stencil")
     ]
 )

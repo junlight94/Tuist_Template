@@ -1,11 +1,10 @@
 #!/bin/bash
 
 NAME=$1
-SERVICE_NAME=$2
 
 # Dependency, RootFeature 파일 경로
 DEPENDENCY_FILE="./Tuist/ProjectDescriptionHelpers/Extension/Dependency+Feature.swift"
-PARENT_MODULE="./Projects/$SERVICE_NAME/Service/Project.swift"
+PARENT_MODULE="./Projects/Features/RootFeature/Project.swift"
 
 # 이름 전달 확인
 if [ -z "$NAME" ]; then
@@ -25,44 +24,36 @@ if [ ! -f "$PARENT_MODULE" ]; then
     exit 1
 fi
 
-# Dependency에 추가할 Struct
-NEW_DEPENDENCY_STRUCT="        public struct $NAME {}"
+# 소문자로 변환된 이름 (camelCase)
+FIRST_CHAR=$(echo "$NAME" | cut -c1 | tr '[:upper:]' '[:lower:]')
+REST_CHARS=$(echo "$NAME" | cut -c2-)
+LOWER_NAME="${FIRST_CHAR}${REST_CHARS}"
 
-# Dependency에 추가할 Extension
-NEW_DEPENDENCY_EXTENSION=$(cat <<EOF
+# Dependency에 추가할 내용 (기존 패턴과 동일하게)
+NEW_DEPENDENCY="    static let $LOWER_NAME = featureDependency(target: \"${NAME}Feature\")"
 
-public extension TargetDependency.Features.$NAME {
-    static let name = "$NAME"
-    
-    static let feature = TargetDependency.Features.project(
-        name: "\(name)Feature",
-        service: .sample
-    )
-    
-    static let interface = TargetDependency.project(
-        target: "\(name)FeatureInterface",
-        path: .relativeToFeature(path: "\(name)Feature", service: .sample)
-    )
-}
-EOF
-)
+# RootFeature에 추가할 Dependency
+NEW_ROOT_DEPENDENCY="        .Feature.$LOWER_NAME,"
 
-# Root에 추가할 Dependency
-NEW_ROOT_DEPENDENCY="        .Features.$NAME.feature,"
+echo "🔧 Dependency+Feature.swift에 새로운 의존성을 추가합니다..."
 
-# Feature Struct 추가
-sed -i '' "/struct Features {/a\\
-$NEW_DEPENDENCY_STRUCT
+# Feature Dependency 추가 (마지막 } 앞에 추가)
+sed -i '' "/^}$/i\\
+$NEW_DEPENDENCY
 " "$DEPENDENCY_FILE"
 
-# Feature Extension 추가
-echo "$NEW_DEPENDENCY_EXTENSION" >> "$DEPENDENCY_FILE"
+echo "🔧 RootFeature/Project.swift에 의존성을 추가합니다..."
 
-# RootFeature 위치 확인 및 추가
+# RootFeature에 의존성 추가
 if grep -q "dependencies: \[" "$PARENT_MODULE"; then
-    sed -i '' "/dependencies: \[/a\\
+    # dependencies 배열의 마지막 항목 뒤에 추가
+    sed -i '' "/dependencies: \[/,/\]/ {
+        /\]/ i\\
 $NEW_ROOT_DEPENDENCY
-" "$PARENT_MODULE"
+    }" "$PARENT_MODULE"
 else
+    echo "🔴 dependencies 배열을 찾을 수 없습니다."
     exit 1
 fi
+
+echo "✅ ${NAME}Feature 의존성이 성공적으로 추가되었습니다!"

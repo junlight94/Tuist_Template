@@ -12,6 +12,6 @@ let project = Project.configure(
     moduleType: .module(name: "RootFeature"),
     product: .staticFramework,
     dependencies: [
-        .Feature.main
+        .Feature.main,
     ]
 )
