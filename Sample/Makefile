@@ -1,29 +1,16 @@
 .PHONY: generate
 
 module:
-	@echo "✨ 서비스 선택:"
-	@ls ./Projects | grep "Service" | nl -w2 -s'. '
-	@read -p "📝 옵션 입력 (서비스 모듈의 숫자 선택): " path_option; \
-	folder_count=$$(ls ./Projects | grep "Service" | wc -l); \
-	if [ "$$path_option" -ge 1 ] && [ "$$path_option" -le "$$folder_count" ]; then \
-		selected_service=$$(ls ./Projects | grep "Service" | sed -n "$${path_option}p"); \
-		service_name=$$(ls ./Projects | grep "Service" | sed -n "$${path_option}p" | sed 's/Service//' | tr '[:upper:]' '[:lower:]'); \
-		echo "✅ 선택된 서비스: $$selected_service"; \
-	else \
-		echo "❌ 잘못된 입력입니다."; \
-		exit 1; \
-	fi; \
-	echo "\n"; \
-	echo "✨ 모듈 선택:"; \
-	echo "[1]  Micro Feature 모듈 생성"; \
-	echo "[2]  Domain 모듈 생성"; \
-	read -p "📝 옵션 입력 (1, 2): " path_option; \
-	case $$path_option in \
+	@echo "✨ 생성할 모듈 타입을 선택해주세요:"
+	@echo "[1]  Feature 모듈 생성"
+	@echo "[2]  Domain 모듈 생성"
+	@read -p "📝 옵션 입력 (1, 2): " module_type; \
+	case $$module_type in \
 	1) \
-		destination="Projects/$$selected_service/Features"; \
+		destination="Projects/Features"; \
 		folderName="feature";; \
 	2) \
-		destination="Projects/$$selected_service/Domains"; \
+		destination="Projects/Domains"; \
 		folderName="domain";; \
 	*) \
 		echo "❌ 잘못된 옵션 입력입니다. 1, 2 중에서 선택하세요."; \
@@ -42,13 +29,13 @@ module:
 		exit 1; \
 	fi; \
 	if [ "$$folderName" = "domain" ]; then \
-		sh ./Script/addNewDomain.sh "$$name" "$$selected_service"; \
+		sh ./Script/addNewDomain.sh "$$name"; \
 	elif [ "$$folderName" = "feature" ]; then \
-		sh ./Script/addNewFeature.sh "$$name" "$$selected_service"; \
+		sh ./Script/addNewFeature.sh "$$name"; \
 	else \
 		echo "🚨 Error: Unknown folderName '$$folderName'"; \
 		exit 1; \
 	fi; \
 	echo "\n"; \
 	echo "🔨 모듈 생성중입니다"; \
-	tuist scaffold "$$folderName" --name "$$name" --service "$$service_name" --path "$$destination"
+	tuist scaffold "$$folderName" --name "$$name" --path "$$destination"

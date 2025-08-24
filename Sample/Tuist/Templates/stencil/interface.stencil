@@ -2,10 +2,10 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .module(name: "{{ name }}Domain"),
+    moduleType: .domain(name: "{{ name }}"),
     product: .staticFramework,
     dependencies: [
-        .Module.shared
+        .Modules.shared(.{{ service }})
     ],
     hasInterface: true,
     hasTests: true

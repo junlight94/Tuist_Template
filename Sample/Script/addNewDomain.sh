@@ -1,11 +1,10 @@
 #!/bin/bash
 
 NAME=$1
-SERVICE_NAME=$2
 
 # Dependency, RootFeature 파일 경로
 DEPENDENCY_FILE="./Tuist/ProjectDescriptionHelpers/Extension/Dependency+Domain.swift"
-PARENT_MODULE="./Projects/$SERVICE_NAME/Domains/Domain/Project.swift"
+PARENT_MODULE="./Projects/Domains/Domain/Project.swift"
 
 # 이름 전달 확인
 if [ -z "$NAME" ]; then
@@ -25,39 +24,36 @@ if [ ! -f "$PARENT_MODULE" ]; then
     exit 1
 fi
 
-# Dependency에 추가할 Struct
-NEW_DEPENDENCY_STRUCT="        public struct $NAME {}"
+# 소문자로 변환된 이름 (camelCase)
+FIRST_CHAR=$(echo "$NAME" | cut -c1 | tr '[:upper:]' '[:lower:]')
+REST_CHARS=$(echo "$NAME" | cut -c2-)
+LOWER_NAME="${FIRST_CHAR}${REST_CHARS}"
 
-# Dependency에 추가할 Extension
-NEW_DEPENDENCY_EXTENSION=$(cat <<EOF
+# Dependency에 추가할 내용 (기존 패턴과 동일하게)
+NEW_DEPENDENCY="    static let $LOWER_NAME = domainDependency(target: \"${NAME}Domain\")"
 
-public extension TargetDependency.Domains.$NAME {
-    static let name = "$NAME"
-    
-    static let domain = TargetDependency.Domains.project(
-        name: "\(name)Domain",
-        service: .sample
-    )
-}
-EOF
-)
+# Domain에 추가할 Dependency
+NEW_DOMAIN_DEPENDENCY="        .Domain.$LOWER_NAME,"
 
-# Root에 추가할 Dependency
-NEW_ROOT_DEPENDENCY="        .Domains.$NAME.domain,"
+echo "🔧 Dependency+Domain.swift에 새로운 의존성을 추가합니다..."
 
-# Feature Struct 추가
-sed -i '' "/struct Domains {/a\\
-$NEW_DEPENDENCY_STRUCT
+# Domain Dependency 추가 (마지막 } 앞에 추가)
+sed -i '' "/^}$/i\\
+$NEW_DEPENDENCY
 " "$DEPENDENCY_FILE"
 
-# Feature Extension 추가
-echo "$NEW_DEPENDENCY_EXTENSION" >> "$DEPENDENCY_FILE"
+echo "🔧 Domain/Project.swift에 의존성을 추가합니다..."
 
-# RootFeature 위치 확인 및 추가
+# Domain에 의존성 추가
 if grep -q "dependencies: \[" "$PARENT_MODULE"; then
-    sed -i '' "/dependencies: \[/a\\
-$NEW_ROOT_DEPENDENCY
-" "$PARENT_MODULE"
+    # dependencies 배열의 마지막 항목 뒤에 추가
+    sed -i '' "/dependencies: \[/,/\]/ {
+        /\]/ i\\
+$NEW_DOMAIN_DEPENDENCY
+    }" "$PARENT_MODULE"
 else
+    echo "🔴 dependencies 배열을 찾을 수 없습니다."
     exit 1
 fi
+
+echo "✅ ${NAME}Domain 의존성이 성공적으로 추가되었습니다!"
