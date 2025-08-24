@@ -38,10 +38,10 @@ module:
 	fi; \
 	echo "\n"; \
 	echo "🔨 모듈 생성중입니다"; \
-	tuist scaffold "$$folderName" --name "$$name" --path "$$destination"
+	tuist scaffold "$$folderName" --name "$$name" --path "$$destination"; \
 	echo ""; \
 	echo "📊 의존성 그래프 생성 중..."; \
-	tuist graph; \
+	tuist graph -d; \
 	\
 	echo ""; \
 	echo "🔄 프로젝트 실행 중..."; \
