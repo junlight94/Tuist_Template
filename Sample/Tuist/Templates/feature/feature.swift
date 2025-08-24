@@ -36,7 +36,7 @@ let template = Template(
               templatePath: "../stencil/sample.stencil"),
         .file(path: "\(nameAttribute)Feature/Demo/Sources/AppDelegate.swift",
               templatePath: "../stencil/appDelegate.stencil"),
-        .file(path: "\(nameAttribute)Feature/Demo/Sources/App.swift",
+        .file(path: "\(nameAttribute)Feature/Demo/Sources/\(nameAttribute)App.swift",
               templatePath: "../stencil/app.stencil"),
         
         // MARK: Interface
