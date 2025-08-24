@@ -43,32 +43,43 @@ extension Project {
     /// 단순 모듈
     static func configureModule(
         configuration: AppConfiguration,
-        moduleName: String,
+        name: String,
         product: Product,
         hasResources: Bool = false,
         hasTests: Bool = false,
         hasDemo: Bool = false,
+        hasInterface: Bool = false,
         dependencies: [TargetDependency]
     ) -> Self {
         var targets: [Target] = []
         var schemes: [Scheme] = [Scheme.configureScheme(
-            schemeName: moduleName
+            schemeName: name
         )]
         
+        if hasInterface {
+            let interfaceTarget = createInterfaceTarget(
+                name: name,
+                configuration: configuration,
+                product: product,
+                dependencies: dependencies
+            )
+            targets.append(interfaceTarget)
+        }
+        
         let frameworkTarget = createFrameworkTarget(
-            name: moduleName,
+            name: name,
             configuration: configuration,
             product: product,
-            dependencies: dependencies
+            dependencies: hasInterface ? [.target(name: "\(name)Interface")] : dependencies
         )
         targets.append(frameworkTarget)
         
         if hasTests {
             let testTarget = createTestTarget(
-                name: moduleName,
+                name: name,
                 configuration: configuration,
                 dependencies: [
-                    .target(name: moduleName)
+                    .target(name: name)
                 ]
             )
             targets.append(testTarget)
@@ -76,15 +87,15 @@ extension Project {
         
         if hasDemo {
             let demoTarget = createDemoTarget(
-                name: moduleName,
+                name: name,
                 configuration: configuration
             )
             targets.append(demoTarget)
-            schemes.append(Scheme.configureDemoAppScheme(schemeName: "\(moduleName)Demo"))
+            schemes.append(Scheme.configureDemoAppScheme(schemeName: "\(name)Demo"))
         }
         
         return Project(
-            name: moduleName,
+            name: name,
             organizationName: configuration.organizationName,
             settings: configuration.commonSettings,
             targets: targets,

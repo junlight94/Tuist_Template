@@ -13,6 +13,7 @@ extension Project {
         product: Product,
         dependencies: [TargetDependency],
         interfaceDependencies: [TargetDependency] = [],
+        hasInterface: Bool = false,
         hasTests: Bool = false,
         hasResources: Bool = false,
         hasDemo: Bool = false
@@ -39,11 +40,12 @@ extension Project {
         case let .module(name):
             return configureModule(
                 configuration: configuration,
-                moduleName: name,
+                name: name,
                 product: product,
                 hasResources: hasResources,
                 hasTests: hasTests,
                 hasDemo: hasDemo,
+                hasInterface: hasInterface,
                 dependencies: dependencies
             )
         }

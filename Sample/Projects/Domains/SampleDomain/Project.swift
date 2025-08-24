@@ -7,5 +7,6 @@ let project = Project.configure(
     dependencies: [
         .Module.shared
     ],
+    hasInterface: true,
     hasTests: true
 )

@@ -7,11 +7,3 @@
 
 import SwiftUI
 
-@main
-struct TestProject: App {
-    var body: some Scene {
-        WindowGroup {
-            Text("hi")
-        }
-    }
-}
