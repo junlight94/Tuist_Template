@@ -13,6 +13,6 @@ let project = Project.configure(
     product: .staticFramework,
     dependencies: [
         .Library.alamofire,
-        .Domain.domain
+        .Domain.implement
     ]
 )

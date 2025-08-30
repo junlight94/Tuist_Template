@@ -29,18 +29,24 @@ FIRST_CHAR=$(echo "$NAME" | cut -c1 | tr '[:upper:]' '[:lower:]')
 REST_CHARS=$(echo "$NAME" | cut -c2-)
 LOWER_NAME="${FIRST_CHAR}${REST_CHARS}"
 
-# Dependency에 추가할 내용 (기존 패턴과 동일하게)
-NEW_DEPENDENCY="    static let $LOWER_NAME = featureDependency(target: \"${NAME}Feature\")"
-
 # RootFeature에 추가할 Dependency
-NEW_ROOT_DEPENDENCY="        .Feature.$LOWER_NAME,"
+NEW_ROOT_DEPENDENCY="        .Feature.$NAME.feature,"
 
 echo "🔧 Dependency+Feature.swift에 새로운 의존성을 추가합니다..."
 
 # Feature Dependency 추가 (마지막 } 앞에 추가)
-sed -i '' "/^}$/i\\
-$NEW_DEPENDENCY
-" "$DEPENDENCY_FILE"
+sed -i '' '/^public extension TargetDependency\.Feature {$/,/^}$/{
+    /^}$/{
+        i\
+
+        i\
+    struct '"${NAME}"' {\
+        private static let name = "'"${NAME}"'Feature"\
+        public static let feature = featureDependency(target: name)\
+        public static let interface = featureInterfaceDependency(target: name)\
+    }
+    }
+}' "$DEPENDENCY_FILE"
 
 echo "🔧 RootFeature/Project.swift에 의존성을 추가합니다..."
 

@@ -11,7 +11,12 @@ import ProjectDescription
 /// 의존성을 생성하는 기본 프로토콜
 public protocol DependencyProvider {
     static func dependency(target: String, path: Path) -> TargetDependency
+    
     static func domainDependency(target: String) -> TargetDependency
+    static func domainInterfaceDependency(target: String) -> TargetDependency
+    
+    static func featureDependency(target: String) -> TargetDependency
+    static func featureInterfaceDependency(target: String) -> TargetDependency
 }
 
 public extension DependencyProvider {
@@ -29,9 +34,23 @@ public extension DependencyProvider {
         )
     }
     
+    static func domainInterfaceDependency(target: String) -> TargetDependency {
+        return .project(
+            target: "\(target)Interface",
+            path: .relativeToDomain(path: target)
+        )
+    }
+    
     static func featureDependency(target: String) -> TargetDependency {
         return .project(
             target: target,
+            path: .relativeToFeature(path: target)
+        )
+    }
+    
+    static func featureInterfaceDependency(target: String) -> TargetDependency {
+        return .project(
+            target: "\(target)Interface",
             path: .relativeToFeature(path: target)
         )
     }
@@ -49,7 +68,13 @@ public extension TargetDependency {
     struct Module: DependencyProvider {}
     
     /// 도메인 레이어 의존성
-    struct Domain: DependencyProvider {}
+    struct Domain: DependencyProvider {
+        static let domain = Domain.self
+        
+        private static let name = "Domain"
+        public static let implement = domainDependency(target: name)
+        public static let interface = domainInterfaceDependency(target: name)
+    }
     
     /// 피처 레이어 의존성
     struct Feature: DependencyProvider {}

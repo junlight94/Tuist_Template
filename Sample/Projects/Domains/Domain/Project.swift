@@ -12,7 +12,7 @@ let project = Project.configure(
     moduleType: .module(name: "Domain"),
     product: .staticFramework,
     dependencies: [
-        .Domain.sample,
+        .Domain.Sample.implement,
     ],
     hasTests: true
 )

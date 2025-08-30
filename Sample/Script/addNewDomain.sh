@@ -29,18 +29,24 @@ FIRST_CHAR=$(echo "$NAME" | cut -c1 | tr '[:upper:]' '[:lower:]')
 REST_CHARS=$(echo "$NAME" | cut -c2-)
 LOWER_NAME="${FIRST_CHAR}${REST_CHARS}"
 
-# Dependency에 추가할 내용 (기존 패턴과 동일하게)
-NEW_DEPENDENCY="    static let $LOWER_NAME = domainDependency(target: \"${NAME}Domain\")"
-
 # Domain에 추가할 Dependency
-NEW_DOMAIN_DEPENDENCY="        .Domain.$LOWER_NAME,"
+NEW_DOMAIN_DEPENDENCY="        .Domain.$NAME.implement,"
 
 echo "🔧 Dependency+Domain.swift에 새로운 의존성을 추가합니다..."
 
 # Domain Dependency 추가 (마지막 } 앞에 추가)
-sed -i '' "/^}$/i\\
-$NEW_DEPENDENCY
-" "$DEPENDENCY_FILE"
+sed -i '' '/^public extension TargetDependency\.Domain {$/,/^}$/{
+    /^}$/{
+        i\
+
+        i\
+    struct '"${NAME}"' {\
+        private static let name = "'"${NAME}"'Domain"\
+        public static let implement = domainDependency(target: name)\
+        public static let interface = domainInterfaceDependency(target: name)\
+    }
+    }
+}' "$DEPENDENCY_FILE"
 
 echo "🔧 Domain/Project.swift에 의존성을 추가합니다..."
 
