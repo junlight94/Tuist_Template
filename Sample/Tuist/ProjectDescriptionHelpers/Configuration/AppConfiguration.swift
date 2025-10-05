@@ -12,7 +12,6 @@ public struct AppConfiguration {
     
     public init() {}
     
-    let workspaceName = "Sample"
     let projectName: String = "Sample"
     let organizationName = "SampleCompany"
     let shortVersion: String = "1.0.0"
@@ -22,30 +21,9 @@ public struct AppConfiguration {
     var entitlements: Entitlements? = nil
     let deploymentTarget: DeploymentTargets = .iOS("16.0")
     
-    public var configurationName: ConfigurationName {
-        return "TestProject"
-    }
-    
-    var infoPlist: [String : Plist.Value] {
-        InfoPlist.appInfoPlist(self)
-    }
-    
-    public var autoCodeSigning: SettingsDictionary {
-        return SettingsDictionary().automaticCodeSigning(devTeam: "DD8KP9C4KQ")
-    }
-    
     var setting: Settings {
         return Settings.settings(
-            base: autoCodeSigning,
             configurations: XCConfig.project
         )
     }
-    
-    let commonSettings = Settings.settings(
-        base: SettingsDictionary.debugSettings
-            .configureAutoCodeSigning()
-            .configureVersioning()
-            .configureTestability(),
-        configurations: XCConfig.framework
-    )
 }

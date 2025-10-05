@@ -28,11 +28,15 @@ public struct InfoPlist {
         ]
     ]
     
-    static func appInfoPlist(_ appConfiguration: AppConfiguration) -> [String: Plist.Value] {
+    static var appInfoPlist: [String: Plist.Value] {
         var infoPlist = commonInfoPlist
-        infoPlist["CFBundleShortVersionString"] = .string(appConfiguration.shortVersion)
-        infoPlist["CFBundleIdentifier"] = .string(appConfiguration.bundleIdentifier)
-        infoPlist["CFBundleDisplayName"] = .string(appConfiguration.displayName)
+        infoPlist["CFBundleDisplayName"] = .string("$(PRODUCT_DISPLAY_NAME)")
+        return infoPlist
+    }
+    
+    static func demoPlist(_ displayName: String) -> [String: Plist.Value] {
+        var infoPlist = commonInfoPlist
+        infoPlist["CFBundleDisplayName"] = .string(displayName)
         return infoPlist
     }
 }

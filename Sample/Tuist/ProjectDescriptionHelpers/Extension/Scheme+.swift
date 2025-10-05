@@ -11,15 +11,14 @@ extension Scheme {
     static func configureAppScheme(
         schemeName: String
     ) -> [Scheme] {
-        let developConfiguration: ConfigurationName = .configuration("Develop")
-        let testConfiguration: ConfigurationName = .configuration("Test")
-        let productionConfiguration: ConfigurationName = .configuration("Production")
+        let developConfiguration: ConfigurationName = .configuration("Dev")
+        let productionConfiguration: ConfigurationName = .configuration("Prod")
         
         let buildAction = BuildAction.buildAction(targets: [TargetReference(stringLiteral: schemeName)])
         
         return [
             Scheme.scheme(
-                name: schemeName + "-Develop",
+                name: schemeName + "-Dev",
                 shared: true,
                 buildAction: buildAction,
                 runAction: .runAction(configuration: developConfiguration),
@@ -28,16 +27,7 @@ extension Scheme {
                 analyzeAction: .analyzeAction(configuration: developConfiguration)
             ),
             Scheme.scheme(
-                name: schemeName + "-Test",
-                shared: true,
-                buildAction: buildAction,
-                runAction: .runAction(configuration: testConfiguration),
-                archiveAction: .archiveAction(configuration: testConfiguration),
-                profileAction: .profileAction(configuration: testConfiguration),
-                analyzeAction: .analyzeAction(configuration: testConfiguration)
-            ),
-            Scheme.scheme(
-                name: schemeName + "-Production",
+                name: schemeName + "-Prod",
                 shared: true,
                 buildAction: buildAction,
                 runAction: .runAction(configuration: productionConfiguration),
@@ -51,7 +41,7 @@ extension Scheme {
     static func configureDemoAppScheme(
         schemeName: String
     ) -> Scheme {
-        let developConfiguration: ConfigurationName = .configuration("Develop")
+        let developConfiguration: ConfigurationName = .configuration("Dev")
         
         let buildAction = BuildAction.buildAction(targets: [TargetReference(stringLiteral: schemeName)])
         
@@ -69,7 +59,7 @@ extension Scheme {
     static func configureScheme(
         schemeName: String
     ) -> Scheme {
-        let configuration: ConfigurationName = .configuration("Develop")
+        let configuration: ConfigurationName = .configuration("Dev")
         
         let buildAction = BuildAction.buildAction(targets: [TargetReference(stringLiteral: schemeName)])
         

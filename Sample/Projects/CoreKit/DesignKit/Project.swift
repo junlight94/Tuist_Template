@@ -12,7 +12,6 @@ let project = Project.configure(
     moduleType: .module(name: "DesignKit"),
     product: .framework,
     dependencies: [
-        .Library.snapKit,
     ],
-    hasDemo: true
+    demoConfiguration: .enabled(displayName: "UI 데모앱")
 )

@@ -7,7 +7,8 @@
 
 import ProjectDescription
 
-public extension ProjectDescription.Path {
+// MARK: Feature Path
+public extension Path {
     static func relativeToFeature(path: String) -> Self {
         return .relativeToRoot("Projects/Features/\(path)")
     }
@@ -34,5 +35,11 @@ public extension ProjectDescription.Path {
     
     static func relativeUmbrella() -> Self {
         return .relativeToRoot("Projects/Umbrella")
+    }
+}
+
+// MARK: XCConfig Path
+extension Path {
+    static var project: ProjectDescription.Path { .relativeToRoot("xcconfigs/Project.xcconfig")
     }
 }
