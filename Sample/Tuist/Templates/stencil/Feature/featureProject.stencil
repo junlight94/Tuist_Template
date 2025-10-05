@@ -2,9 +2,12 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.configure(
-    moduleType: .micro(name: "{{ name }}Feature"),
+    moduleType: .micro(
+		name: "{{ name }}Feature",
+		demo: .enabled(displayName:"{{name}} 데모앱")
+    ),
     product: .staticFramework,
     dependencies: [
-	.Core.core
+		.Core.core
     ]
 )
